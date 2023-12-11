@@ -107,4 +107,8 @@ public class ClientesDAO {
         }
         return null;
     }
+
+    public boolean isCpfValido(String cpf) {
+        return false;
+    }
 }

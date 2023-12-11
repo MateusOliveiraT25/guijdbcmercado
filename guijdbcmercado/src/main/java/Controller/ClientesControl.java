@@ -10,11 +10,12 @@ public class ClientesControl {
     private List<Clientes> clientes;
     private DefaultTableModel tableModel;
     private JTable table;
+    private ClientesDAO clientesDAO;
 
     public ClientesControl(List<Clientes> clientes, DefaultTableModel tableModel, JTable table) {
         this.clientes = clientes;
         this.tableModel = tableModel;
-        this.table = table;
+
         // Inicialize o tableModel se for nulo
         if (this.tableModel == null) {
             this.tableModel = new DefaultTableModel();
@@ -22,47 +23,54 @@ public class ClientesControl {
             this.tableModel.addColumn("Nome");
             this.tableModel.addColumn("CPF");
         }
+
+        this.table = table;
+        this.clientesDAO = new ClientesDAO();
     }
 
     private void atualizarTabela() {
         tableModel.setRowCount(0);
-        clientes = new ClientesDAO().listarTodos();
+        clientes = clientesDAO.listarTodos();
         for (Clientes cliente : clientes) {
-            tableModel.addRow(new Object[]{cliente.getNome(), cliente.getCpf()});
+            tableModel.addRow(new Object[] { cliente.getNome(), cliente.getCpf() });
         }
     }
 
     public void cadastrarUsuario(String nome, String cpf) {
-        boolean cadastroSucesso = new ClientesDAO().cadastrarUsuario(nome, cpf);
+        // Validar o CPF antes de cadastrar
+        if (clientesDAO.isCpfValido(cpf)) {
+            boolean cadastroSucesso = clientesDAO.cadastrarUsuario(nome, cpf);
 
-        if (cadastroSucesso) {
-            JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
+            if (cadastroSucesso) {
+                JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
+                atualizarTabela();
+            } else {
+                JOptionPane.showMessageDialog(null, "Falha ao cadastrar usuário. Verifique os dados e tente novamente.",
+                        "Erro de Cadastro", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
-            JOptionPane.showMessageDialog(null, "Falha ao cadastrar usuário. Verifique os dados e tente novamente.", "Erro de Cadastro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "CPF inválido. Não foi possível cadastrar o usuário.",
+                    "Erro de Cadastro", JOptionPane.ERROR_MESSAGE);
         }
-
-        atualizarTabela();
     }
 
     public Clientes obterClientePorCPF(String cpf) {
         try {
-            return new ClientesDAO().obterClientePorCpf(cpf);
+            return clientesDAO.obterClientePorCpf(cpf);
         } catch (RuntimeException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao obter cliente por CPF: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao obter cliente por CPF: " + e.getMessage(), "Erro",
+                    JOptionPane.ERROR_MESSAGE);
             return null;
         }
     }
 
     public void atualizarCliente(String nome, String cpf) {
-        new ClientesDAO().atualizar(nome, cpf);
+        clientesDAO.atualizar(nome, cpf);
         atualizarTabela();
     }
 
     public void apagarCliente(String cpf) {
-        new ClientesDAO().apagar(cpf);
+        clientesDAO.apagar(cpf);
         atualizarTabela();
-    }
-
-    public void cadastrarUsuario() {
     }
 }

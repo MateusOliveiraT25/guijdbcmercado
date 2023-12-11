@@ -14,6 +14,7 @@ public class ClientesPainel extends JPanel {
     private DefaultTableModel tableModel;
     private int linhaSelecionada = -1;
     private JLabel resultadoLabel;
+    private CardLayout cardLayout;
 
     public ClientesPainel() {
         super();
@@ -51,6 +52,7 @@ public class ClientesPainel extends JPanel {
 
         resultadoLabel = new JLabel();
         add(resultadoLabel);
+        
 
         ClientesControl operacoes = new ClientesControl(clientes, tableModel, null); // Passando 'null' para a tabela, pois não a usaremos aqui
 
