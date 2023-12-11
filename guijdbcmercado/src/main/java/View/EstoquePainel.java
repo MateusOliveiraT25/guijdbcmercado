@@ -4,6 +4,8 @@ import Controller.EstoqueControll;
 import Model.Produto;
 
 import javax.swing.*;
+
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -50,34 +52,75 @@ public class EstoquePainel extends JPanel {
     }
 
     private void adicionarProduto() {
-        // Solicitação de informações ao usuário
-        String codigoBarra = JOptionPane.showInputDialog(this, "Digite o código de barras do produto:");
-        String nome = JOptionPane.showInputDialog(this, "Digite o nome do produto:");
-        String quantidadeStr = JOptionPane.showInputDialog(this, "Digite a quantidade do produto:");
-        String precoStr = JOptionPane.showInputDialog(this, "Digite o preço do produto:");
+    // Criação do JDialog
+    JDialog dialog = new JDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Adicionar Produto", true);
+    dialog.setLayout(new GridLayout(5, 2));
 
-        // Verificação de valores não nulos ou vazios
-        if (codigoBarra != null && nome != null && !quantidadeStr.isEmpty() && !precoStr.isEmpty()) {
+    // Adiciona campos de entrada e rótulos ao JDialog
+    JTextField codigoBarraField = new JTextField();
+    JTextField nomeField = new JTextField();
+    JTextField quantidadeField = new JTextField();
+    JTextField precoField = new JTextField();
+
+    dialog.add(new JLabel("Código de Barras:"));
+    dialog.add(codigoBarraField);
+    dialog.add(new JLabel("Nome:"));
+    dialog.add(nomeField);
+    dialog.add(new JLabel("Quantidade:"));
+    dialog.add(quantidadeField);
+    dialog.add(new JLabel("Preço:"));
+    dialog.add(precoField);
+
+    // Adiciona botões de OK e Cancelar ao JDialog
+    JButton okButton = new JButton("OK");
+    JButton cancelButton = new JButton("Cancelar");
+
+    dialog.add(okButton);
+    dialog.add(cancelButton);
+
+    // Adiciona ação ao botão OK
+    okButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
             try {
-                // Conversão para números
-                int quantidade = Integer.parseInt(quantidadeStr);
-                double preco = Double.parseDouble(precoStr);
+                // Obtem os valores dos campos
+                String codigoBarra = codigoBarraField.getText();
+                String nome = nomeField.getText();
+                int quantidade = Integer.parseInt(quantidadeField.getText());
+                double preco = Double.parseDouble(precoField.getText());
 
                 // Chamada do método do controlador para adicionar o produto
                 gerenciadorEstoque.adicionarProduto(codigoBarra, nome, quantidade, preco);
 
                 // Exibição de mensagem de sucesso em uma caixa de diálogo
-                JOptionPane.showMessageDialog(this, "Produto adicionado com sucesso!", "Sucesso",
+                JOptionPane.showMessageDialog(EstoquePainel.this, "Produto adicionado com sucesso!", "Sucesso",
                         JOptionPane.INFORMATION_MESSAGE);
-            } catch (NumberFormatException e) {
+
+                // Fecha o JDialog
+                dialog.dispose();
+            } catch (NumberFormatException ex) {
                 // Tratamento de erro se a conversão falhar
-                JOptionPane.showMessageDialog(this, "Erro ao converter valores para números.", "Erro",
+                JOptionPane.showMessageDialog(dialog, "Erro ao converter valores para números.", "Erro",
                         JOptionPane.ERROR_MESSAGE);
             }
-        } else {
-            // Usuário cancelou a entrada ou forneceu valores nulos/vazios
-            JOptionPane.showMessageDialog(this, "Entrada cancelada ou valores inválidos.", "Aviso",
-                    JOptionPane.WARNING_MESSAGE);
         }
-    }
+    });
+
+    // Adiciona ação ao botão Cancelar
+    cancelButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // Fecha o JDialog sem fazer alterações
+            dialog.dispose();
+        }
+    });
+
+    // Configurações finais do JDialog
+    dialog.setSize(300, 200);
+    dialog.setLocationRelativeTo(null); // Centraliza na tela
+    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+
+    // Exibe o JDialog
+    dialog.setVisible(true);
+}
 }

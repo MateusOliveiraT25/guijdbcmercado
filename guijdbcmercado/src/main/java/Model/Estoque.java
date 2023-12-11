@@ -25,4 +25,8 @@ public class Estoque {
     public List<Produto> listarProdutosDoBanco() {
         return null;
     }
+
+    public Produto get(String codigoBarras) {
+        return null;
+    }
 }

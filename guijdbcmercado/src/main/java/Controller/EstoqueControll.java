@@ -93,6 +93,29 @@ public class EstoqueControll {
         }
     }
 
+    // Método para deduzir a quantidade do estoque
+    public void deduzirQuantidadeDoEstoque(String codigoBarras, int quantidade) {
+        Produto produto = estoque.get(codigoBarras);
+    
+        if (produto != null && quantidade > 0) {
+            int quantidadeAtual = produto.getQuantidade();
+    
+            if (quantidadeAtual >= quantidade) {
+                int novaQuantidade = quantidadeAtual - quantidade;
+                produto.setQuantidade(novaQuantidade);
+                System.out.println("Quantidade deduzida com sucesso. Novo estoque: " + novaQuantidade);
+                // Atualizar a lista do estoque após a dedução
+                atualizarTabelaBancoDados();
+            } else {
+                System.err.println("Quantidade insuficiente em estoque para dedução. Quantidade atual: " + quantidadeAtual);
+            }
+        } else {
+            System.err.println("Produto não encontrado ou quantidade inválida. Código de Barras: " + codigoBarras + ", Quantidade: " + quantidade);
+        }
+    }
+    
+    
+
 
 
     /**
