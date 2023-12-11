@@ -25,7 +25,7 @@ public class JanelaPrincipal extends JFrame {
 
         // Cria instâncias das duas outras janelas
         ConclusaoCompraPainel conclusaoCompraPainel = new ConclusaoCompraPainel();
-        VendasPainel vendasPainel = new VendasPainel(gerenciadorEstoque);
+        VendasPainel vendasPainel = new VendasPainel(gerenciadorEstoque, conclusaoCompraPainel);
 
         // Adiciona as duas janelas ao CardLayout
         cards.add(conclusaoCompraPainel, "ConclusaoCompra");
