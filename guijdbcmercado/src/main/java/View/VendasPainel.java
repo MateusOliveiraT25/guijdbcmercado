@@ -100,19 +100,27 @@ public class VendasPainel extends JPanel {
         String codigoBarras = codigoBarrasField.getText();
         if (!codigoBarras.isEmpty()) {
             Produto produto = estoqueControll.obterProdutoPorCodigoBarras(codigoBarras);
-
+    
             if (produto != null) {
-                produtosListModel.addElement(produto.getNome() + " - Preço: R$" + produto.getPreco());
+                double precoProduto = produto.getPreco();
+    
+                // Aplica desconto se o cliente for VIP
+                if (clienteVipCheckBox.isSelected()) {
+                    precoProduto *= 0.95; // Desconto de 5%
+                }
+    
+                produtosListModel.addElement(produto.getNome() + " - Preço: R$" + precoProduto);
                 codigoBarrasField.setText("");
-
+    
                 // Atualiza o total ao adicionar um produto
-                total += produto.getPreco();
+                total += precoProduto;
                 atualizarTotalLabel();
             } else {
                 JOptionPane.showMessageDialog(this, "Produto não encontrado no estoque", "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
+    
 
     private void removerProduto() {
         int selectedIndex = produtosList.getSelectedIndex();
