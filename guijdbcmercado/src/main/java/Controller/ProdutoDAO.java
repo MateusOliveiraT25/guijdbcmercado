@@ -114,7 +114,7 @@ public class ProdutoDAO {
         return produtos;
     }
 
-    private boolean registroExiste(String codigoBarra) throws SQLException {
+    boolean registroExiste(String codigoBarra) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT 1 FROM produtos WHERE codigo_barra = ?")) {
             preparedStatement.setString(1, codigoBarra);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {

@@ -88,20 +88,27 @@ public class ConclusaoCompraPainel extends JPanel {
     
             estoqueControll.deduzirQuantidadeDoEstoque(codigoBarras, quantidadeComprada);
         }
+    
+        // Limpar a lista de produtos após a compra
+        detalhesCompraModel.clear();
+        // Atualizar a exibição do total
+        totalCompraLabel.setText("Total da Compra: R$ 0.00");
     }
+    
     
 
     // Métodos auxiliares para extrair informações do texto do produto
     private String extrairCodigoBarrasDoTexto(String textoProduto) {
-        // Verifica se o textoProduto está no formato esperado
-        if (textoProduto.matches("\\d+ - .*")) {
-            // Usa expressão regular para extrair o código de barras (sequência de dígitos)
-            return textoProduto.split(" - ")[0];
-        } else {
-            // Se o formato não corresponder ao esperado, retorna uma string vazia ou lança uma exceção, conforme necessário
-            return "";
+        // Verifica se o textoProduto não é nulo ou vazio
+        if (textoProduto != null && !textoProduto.isEmpty() && textoProduto.length() >= 3) {
+            // O código de barras é os últimos três caracteres
+            return textoProduto.substring(textoProduto.length() - 3);
         }
+        // Se o formato não corresponder ao esperado, retorna uma string vazia ou lança uma exceção, conforme necessário
+        return "";
     }
+    
+    
     
 
     private int extrairQuantidadeDoTexto(String textoProduto) {
