@@ -99,25 +99,35 @@ public class EstoqueControll {
     }
 
     // Método para deduzir a quantidade do estoque
-    public void deduzirQuantidadeDoEstoque(String codigoBarras, int quantidade) {
-        Produto produto = estoque.get(codigoBarras);
     
-        if (produto != null && quantidade > 0) {
+   // Método para deduzir a quantidade do estoque
+public void deduzirQuantidadeDoEstoque(String codigoBarras, int quantidade) {
+    // Verifica se o código de barras e a quantidade são válidos
+    if (codigoBarras != null && !codigoBarras.isEmpty() && quantidade > 0) {
+        // Obtém o produto do estoque usando o código de barras
+        Produto produto = estoque.obterProdutoPorCodigoBarras(codigoBarras);
+
+        if (produto != null) {
             int quantidadeAtual = produto.getQuantidade();
-    
+
             if (quantidadeAtual >= quantidade) {
                 int novaQuantidade = quantidadeAtual - quantidade;
                 produto.setQuantidade(novaQuantidade);
                 System.out.println("Quantidade deduzida com sucesso. Novo estoque: " + novaQuantidade);
+
                 // Atualizar a lista do estoque após a dedução
                 atualizarTabelaBancoDados();
             } else {
-                System.err.println("Quantidade insuficiente em estoque para dedução.");
+                System.err.println("Quantidade insuficiente em estoque para dedução. Quantidade atual: " + quantidadeAtual);
             }
         } else {
-            System.err.println("Produto não encontrado ou quantidade inválida.");
+            System.err.println("Produto não encontrado. Código de Barras: " + codigoBarras);
         }
+    } else {
+        System.err.println("Código de barras ou quantidade inválida.");
     }
+}
+
     
 public void imprimirCupomFiscal(double totalCompra, String dataHoraAtual, ConclusaoCompraPainel conclusaoCompraPainel) {
     DefaultListModel<String> detalhesCompraModel = conclusaoCompraPainel.getDetalhesCompraModel();
@@ -128,8 +138,7 @@ public void imprimirCupomFiscal(double totalCompra, String dataHoraAtual, Conclu
     // Obtém a quantidade de produtos (assumindo que detalhesCompraModel seja um campo da classe)
     int quantidadeProdutos = detalhesCompraModel.size();
 
-    // Verifica se o cliente é VIP (assumindo um método isClienteVIP() na classe EstoqueControll)
-    boolean clienteVIP = isClienteVIP();
+   
 
     // Constrói o conteúdo do cupom fiscal
     StringBuilder cupomFiscal = new StringBuilder();
@@ -149,13 +158,16 @@ public void imprimirCupomFiscal(double totalCompra, String dataHoraAtual, Conclu
     System.out.println("Cupom Fiscal impresso com sucesso:\n" + cupomFiscal.toString());
     JOptionPane.showMessageDialog(null, "Cupom Fiscal impresso com sucesso:\n" + cupomFiscal.toString());
 }
-// Método fictício para determinar se o cliente é VIP
-private boolean isClienteVIP() {
-    // Lógica para determinar se o cliente é VIP
-    // Substitua ou implemente conforme necessário
-    return true;  // Exemplo: Sempre considera o cliente como VIP
-}
 
+public boolean codigoDeBarrasExiste(String codigoBarra) {
+    try {
+        return produtoDAO.registroExiste(codigoBarra);
+    } catch (SQLException e) {
+        // Tratar exceção, se necessário
+        e.printStackTrace();
+        return false;
+    }
+}
 
 
     /**

@@ -79,6 +79,7 @@ public class EstoquePainel extends JPanel {
     dialog.add(cancelButton);
 
     // Adiciona ação ao botão OK
+    // Adiciona ação ao botão OK
     okButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -88,6 +89,13 @@ public class EstoquePainel extends JPanel {
                 String nome = nomeField.getText();
                 int quantidade = Integer.parseInt(quantidadeField.getText());
                 double preco = Double.parseDouble(precoField.getText());
+
+                // Verifica se o código de barras já existe
+                if (gerenciadorEstoque.codigoDeBarrasExiste(codigoBarra)) {
+                    JOptionPane.showMessageDialog(dialog, "Código de barras já existe. Por favor, escolha outro.", "Erro",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;  // Aborta a operação se o código de barras já existir
+                }
 
                 // Chamada do método do controlador para adicionar o produto
                 gerenciadorEstoque.adicionarProduto(codigoBarra, nome, quantidade, preco);

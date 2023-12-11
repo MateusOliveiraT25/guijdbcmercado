@@ -29,4 +29,8 @@ public class Estoque {
     public Produto get(String codigoBarras) {
         return null;
     }
+
+    public Produto obterProdutoPorCodigoBarras(String codigoBarras) {
+        return null;
+    }
 }
