@@ -17,25 +17,26 @@ public class EstoquePainel extends JPanel {
     public EstoquePainel(EstoqueControll gerenciadorEstoque) {
         this.gerenciadorEstoque = gerenciadorEstoque;
 
-       
         JButton listarProdutosButton = new JButton("Listar Produtos");
+        listarProdutosButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                listarProdutos();
+            }
+        });
+
         JButton adicionarProdutoButton = new JButton("Adicionar Produto");
+        adicionarProdutoButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                adicionarProduto();
+            }
+        });
+
         JButton removerProdutoButton = new JButton("Remover Produto");
-
-        // Defina as cores de fundo para os botões
-        listarProdutosButton.setBackground(new Color(0, 128, 0)); // Verde escuro
-        adicionarProdutoButton.setBackground(new Color(0, 0, 128)); // Azul escuro
-        removerProdutoButton.setBackground(new Color(128, 0, 0)); // Vermelho escuro
-
-        // Adicione bordas arredondadas para os botões
-        listarProdutosButton.setOpaque(true);
-        listarProdutosButton.setBorderPainted(false);
-
-        adicionarProdutoButton.setOpaque(true);
-        adicionarProdutoButton.setBorderPainted(false);
-
-        removerProdutoButton.setOpaque(true);
-        removerProdutoButton.setBorderPainted(false);
+        removerProdutoButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                removerProduto();
+            }
+        });
 
         
 
