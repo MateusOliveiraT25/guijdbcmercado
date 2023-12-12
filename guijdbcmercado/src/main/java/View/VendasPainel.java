@@ -69,27 +69,31 @@ public class VendasPainel extends JPanel {
                 removerProduto();
             }
         });
-
         avancarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Lógica para avançar para a tela de conclusão
-                JTabbedPane jTPane = (JTabbedPane) SwingUtilities.getAncestorOfClass(JTabbedPane.class, VendasPainel.this);
-
-                // Supondo que "Tela de Conclusão de Compras" está na terceira posição (índice 2)
-                jTPane.setSelectedIndex(2);
-
-                // Obtém a referência para o ConclusaoCompraPainel
-                ConclusaoCompraPainel conclusaoCompraPainel = (ConclusaoCompraPainel) jTPane.getComponentAt(2);
-
-                // Obtém os produtos do VendasPainel
-                List<String> produtos = obterProdutosDoVendasPainel();
-
-                // Passa os produtos e o total para o ConclusaoCompraPainel
-                conclusaoCompraPainel.setProdutos(produtos);
-                conclusaoCompraPainel.setTotal(total);
+                if (produtosListModel.isEmpty()) {
+                    JOptionPane.showMessageDialog(VendasPainel.this, "Adicione pelo menos um produto antes de avançar.", "Erro", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    // Lógica para avançar para a tela de conclusão
+                    JTabbedPane jTPane = (JTabbedPane) SwingUtilities.getAncestorOfClass(JTabbedPane.class, VendasPainel.this);
+        
+                    // Supondo que "Tela de Conclusão de Compras" está na terceira posição (índice 2)
+                    jTPane.setSelectedIndex(2);
+        
+                    // Obtém a referência para o ConclusaoCompraPainel
+                    ConclusaoCompraPainel conclusaoCompraPainel = (ConclusaoCompraPainel) jTPane.getComponentAt(2);
+        
+                    // Obtém os produtos do VendasPainel
+                    List<String> produtos = obterProdutosDoVendasPainel();
+        
+                    // Passa os produtos e o total para o ConclusaoCompraPainel
+                    conclusaoCompraPainel.setProdutos(produtos);
+                    conclusaoCompraPainel.setTotal(total);
+                }
             }
         });
+        
     }
 
     private List<String> obterProdutosDoVendasPainel() {

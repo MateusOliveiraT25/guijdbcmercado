@@ -131,22 +131,26 @@ public class ProdutoDAO {
             }
         }
     }
-    public Produto obterProdutoPorCodigoBarra(String codigoBarra) throws SQLException {
-        String sql = "SELECT * FROM produtos WHERE codigo_barra = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, codigoBarra);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    return new Produto(
-                            resultSet.getString("codigo_barra"),
-                            resultSet.getString("nome"),
-                            resultSet.getInt("quantidade"),
-                            resultSet.getDouble("preco"));
-                }
+// Dentro do método obterProdutoPorCodigoBarra em ProdutoDAO
+public Produto obterProdutoPorCodigoBarra(String codigoBarra) throws SQLException {
+    String sql = "SELECT * FROM produtos WHERE codigo_barra = ?";
+    try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        preparedStatement.setString(1, codigoBarra.trim()); // Adicione trim() para remover espaços em branco
+
+        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                return new Produto(
+                        resultSet.getString("codigo_barra"),
+                        resultSet.getString("nome"),
+                        resultSet.getInt("quantidade"),
+                        resultSet.getDouble("preco"));
             }
         }
-        return null; // Retorna null se o produto não for encontrado
     }
+    System.err.println("Produto não encontrado. Código de Barras: " + codigoBarra);
+    return null; // Retorna null se o produto não for encontrado
+}
+
 
 
     public void atualizarTabelaBancoDados(List<Produto> produtos) {

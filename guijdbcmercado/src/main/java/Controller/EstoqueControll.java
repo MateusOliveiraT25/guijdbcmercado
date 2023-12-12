@@ -1,4 +1,5 @@
 package Controller;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -99,34 +100,35 @@ public class EstoqueControll {
     }
 
     // Método para deduzir a quantidade do estoque
+    public void deduzirQuantidadeDoEstoque(String codigoBarras, int quantidade) {
+        // Verifica se o código de barras e a quantidade são válidos
+        if (codigoBarras != null && !codigoBarras.isEmpty() && quantidade > 0) {
+            // Obtém o produto do estoque usando o código de barras
+            Produto produto = estoque.obterProdutoPorCodigoBarras(codigoBarras);
     
-   // Método para deduzir a quantidade do estoque
-public void deduzirQuantidadeDoEstoque(String codigoBarras, int quantidade) {
-    // Verifica se o código de barras e a quantidade são válidos
-    if (codigoBarras != null && !codigoBarras.isEmpty() && quantidade > 0) {
-        // Obtém o produto do estoque usando o código de barras
-        Produto produto = estoque.obterProdutoPorCodigoBarras(codigoBarras);
-
-        if (produto != null) {
-            int quantidadeAtual = produto.getQuantidade();
-
-            if (quantidadeAtual >= quantidade) {
-                int novaQuantidade = quantidadeAtual - quantidade;
-                produto.setQuantidade(novaQuantidade);
-                System.out.println("Quantidade deduzida com sucesso. Novo estoque: " + novaQuantidade);
-
-                // Atualizar a lista do estoque após a dedução
-                atualizarTabelaBancoDados();
+            if (produto != null) {
+                int quantidadeAtual = produto.getQuantidade();
+    
+                if (quantidadeAtual >= quantidade) {
+                    int novaQuantidade = quantidadeAtual - quantidade;
+                    produto.setQuantidade(novaQuantidade);
+                    System.out.println("Quantidade deduzida com sucesso. Novo estoque: " + novaQuantidade);
+    
+                    // Atualizar a lista do estoque após a dedução
+                    atualizarTabelaBancoDados();
+                } else {
+                    System.err.println("Quantidade insuficiente em estoque para dedução. Quantidade atual: " + quantidadeAtual);
+                }
             } else {
-                System.err.println("Quantidade insuficiente em estoque para dedução. Quantidade atual: " + quantidadeAtual);
+                System.err.println("Produto não encontrado. Código de Barras: " + codigoBarras);
             }
         } else {
-            System.err.println("Produto não encontrado. Código de Barras: " + codigoBarras);
+            System.err.println("Código de barras ou quantidade inválida.");
         }
-    } else {
-        System.err.println("Código de barras ou quantidade inválida.");
     }
-}
+    
+    
+
 
     
 public void imprimirCupomFiscal(double totalCompra, String dataHoraAtual, ConclusaoCompraPainel conclusaoCompraPainel) {

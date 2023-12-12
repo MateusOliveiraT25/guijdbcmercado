@@ -133,12 +133,20 @@ public class ConclusaoCompraPainel extends JPanel {
     
 
     private void imprimirCupomFiscal() {
-        // Obtém a data e hora atuais
-        String dataHoraAtual = java.time.LocalDateTime.now().toString();
+        // Verifica se há produtos na lista antes de imprimir o cupom fiscal
+        if (detalhesCompraModel.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Não há produtos para imprimir no cupom fiscal.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        } else {
+            // Há produtos na lista, continua com a impressão do cupom fiscal
     
-        // Chama o método no EstoqueControll passando as informações necessárias
-        estoqueControll.imprimirCupomFiscal(total, dataHoraAtual, this);
+            // Obtém a data e hora atuais
+            String dataHoraAtual = java.time.LocalDateTime.now().toString();
+    
+            // Chama o método no EstoqueControll passando as informações necessárias
+            estoqueControll.imprimirCupomFiscal(total, dataHoraAtual, this);
+        }
     }
+    
     
     
 
