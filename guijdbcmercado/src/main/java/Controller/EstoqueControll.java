@@ -169,6 +169,19 @@ public boolean codigoDeBarrasExiste(String codigoBarra) {
     }
 }
 
+public void removerProduto(String codigoBarra) throws SQLException {
+    // Verifica se o produto existe antes de tentar remover
+    if (produtoDAO.registroExiste(codigoBarra)) {
+        Produto produto = produtoDAO.obterProdutoPorCodigoBarra(codigoBarra);
+        produtoDAO.removerProduto(produto);
+    } else {
+        throw new SQLException("Produto não encontrado.");
+    }
+}
+public Produto obterProdutoPorCodigoBarra(String codigoBarra) throws SQLException {
+    // Você pode adicionar validações adicionais conforme necessário
+    return produtoDAO.obterProdutoPorCodigoBarra(codigoBarra);
+}
 
     /**
      * Atualiza a tabela do banco de dados com os produtos do estoque.

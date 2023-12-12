@@ -74,7 +74,7 @@ public class ProdutoDAO {
         }
     }
 
-    public void adicionarProduto(Produto produto) {
+    public void adicionarProduto(Produto produto) throws SQLException {
         String sql = "INSERT INTO produtos (codigo_barra, nome, quantidade, preco) VALUES (?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, produto.getCodigoBarra());
@@ -85,10 +85,19 @@ public class ProdutoDAO {
             System.out.println("Produto adicionado com sucesso!");
         } catch (SQLException e) {
             System.err.println("Erro ao adicionar produto: " + e.getMessage());
-            rollbackTransacao();
+            throw e; // Lança a exceção para tratamento superior
         }
     }
 
+
+    public void removerProduto(Produto produto) throws SQLException {
+        String sql = "DELETE FROM produtos WHERE codigo_barra = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, produto.getCodigoBarra());
+            preparedStatement.executeUpdate();
+            System.out.println("Produto removido com sucesso!");
+        }
+    }
     public List<Produto> listarTodos() {
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -122,6 +131,23 @@ public class ProdutoDAO {
             }
         }
     }
+    public Produto obterProdutoPorCodigoBarra(String codigoBarra) throws SQLException {
+        String sql = "SELECT * FROM produtos WHERE codigo_barra = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, codigoBarra);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return new Produto(
+                            resultSet.getString("codigo_barra"),
+                            resultSet.getString("nome"),
+                            resultSet.getInt("quantidade"),
+                            resultSet.getDouble("preco"));
+                }
+            }
+        }
+        return null; // Retorna null se o produto não for encontrado
+    }
+
 
     public void atualizarTabelaBancoDados(List<Produto> produtos) {
         try {
