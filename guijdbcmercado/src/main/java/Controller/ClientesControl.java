@@ -10,11 +10,10 @@ import Model.Clientes;
 public class ClientesControl {
     private DefaultTableModel tableModel;
     private ClientesDAO clientesDAO;
-    private List<Clientes> clientes;
 
-    public ClientesControl(List<Clientes> clientes) {
-        this.clientes = clientes;
-        this.clientesDAO = new ClientesDAO();
+    // Adicionando um novo construtor que aceita um DefaultTableModel
+    public ClientesControl(DefaultTableModel tableModel) {
+        this.tableModel = tableModel;
 
         // Inicialize o tableModel se for nulo
         if (this.tableModel == null) {
@@ -26,7 +25,6 @@ public class ClientesControl {
 
         this.clientesDAO = new ClientesDAO();
     }
-
     private void atualizarTabela() {
         if (tableModel != null) {
             tableModel.setRowCount(0);
