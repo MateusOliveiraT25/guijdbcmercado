@@ -13,9 +13,13 @@ public class ClientesPainel extends JPanel {
     private int linhaSelecionada = -1;
     private JLabel resultadoLabel;
     private CardLayout cardLayout;
+    private JPanel cards;
 
-    public ClientesPainel() {
+    public ClientesPainel(CardLayout cardLayout, JPanel cards) {
         super();
+        this.cardLayout = cardLayout;
+        this.cards = cards;
+
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         // Diálogo inicial para verificar se o usuário está cadastrado
@@ -50,7 +54,7 @@ public class ClientesPainel extends JPanel {
         add(resultadoLabel);
 
         // Ajuste da chamada do construtor do ClientesControl
-        ClientesControl operacoes = new ClientesControl(tableModel);
+        ClientesControl operacoes = new ClientesControl(null); // Passe a lista de clientes aqui, se disponível
 
         buscarButton.addActionListener(new ActionListener() {
             @Override
@@ -74,21 +78,34 @@ public class ClientesPainel extends JPanel {
     private void cadastrarUsuario() {
         JTextField nomeField = new JTextField();
         JTextField cpfField = new JTextField();
-    
+
         JPanel panel = new JPanel(new GridLayout(2, 2));
         panel.add(new JLabel("Nome:"));
         panel.add(nomeField);
         panel.add(new JLabel("CPF:"));
         panel.add(cpfField);
-    
+
         int option = JOptionPane.showConfirmDialog(null, panel, "Cadastro de Usuário", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
             String nome = nomeField.getText();
             String cpf = cpfField.getText();
-    
-            // Ajuste da chamada do construtor do ClientesControl
-            ClientesControl operacoes = new ClientesControl(tableModel);
-            operacoes.cadastrarUsuario(nome, cpf);
+
+            // Passe a lista de clientes para o construtor do ClientesControl, se disponível
+            ClientesControl operacoes = new ClientesControl(null);
+            boolean cadastroSucesso = operacoes.cadastrarUsuario(nome, cpf);
+
+            if (cadastroSucesso) {
+                JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Falha ao cadastrar usuário. Verifique os dados e tente novamente.", "Erro de Cadastro", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            // Usuário cancelou o cadastro
+            cardLayout.show(cards, "Cadastro Clientes");
         }
+    }
+
+    private void showMessage(String message) {
+        JOptionPane.showMessageDialog(null, message);
     }
 }

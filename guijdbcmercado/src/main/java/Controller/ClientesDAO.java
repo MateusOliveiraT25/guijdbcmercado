@@ -50,6 +50,11 @@ public class ClientesDAO {
     }
 
     public boolean cadastrarUsuario(String nome, String cpf) {
+        if (!isCpfValido(cpf)) {
+            System.out.println("CPF inválido. Não foi possível cadastrar o usuário.");
+            return false;
+        }
+
         String sql = "INSERT INTO clientes_vip (nome, cpf) VALUES (?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, nome);
@@ -65,6 +70,11 @@ public class ClientesDAO {
     }
 
     public void atualizar(String nome, String cpf) {
+        if (!isCpfValido(cpf)) {
+            System.out.println("CPF inválido. Não foi possível atualizar os dados.");
+            return;
+        }
+
         String sql = "UPDATE clientes_vip SET nome = ? WHERE cpf = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, nome);
@@ -79,6 +89,11 @@ public class ClientesDAO {
     }
 
     public void apagar(String cpf) {
+        if (!isCpfValido(cpf)) {
+            System.out.println("CPF inválido. Não foi possível apagar os dados.");
+            return;
+        }
+
         String sql = "DELETE FROM clientes_vip WHERE cpf = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, cpf);
@@ -92,6 +107,11 @@ public class ClientesDAO {
     }
 
     public Clientes obterClientePorCpf(String cpf) {
+        if (!isCpfValido(cpf)) {
+            System.out.println("CPF inválido. Não foi possível obter o cliente.");
+            return null;
+        }
+
         String sql = "SELECT * FROM clientes_vip WHERE cpf = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, cpf);
@@ -108,7 +128,45 @@ public class ClientesDAO {
         return null;
     }
 
-    public boolean isCpfValido(String cpf) {
-        return false;
+    boolean isCpfValido(String cpf) {
+        if (cpf == null || cpf.length() != 11) {
+            return false;
+        }
+    
+        // Remove caracteres não numéricos
+        cpf = cpf.replaceAll("[^0-9]", "");
+    
+        // Verifica se todos os dígitos são iguais
+        if (cpf.matches("(\\d)\\1{10}")) {
+            return false;
+        }
+    
+        // Calcula o primeiro dígito verificador
+        int soma = 0;
+        for (int i = 0; i < 9; i++) {
+            soma += Character.getNumericValue(cpf.charAt(i)) * (10 - i);
+        }
+        int primeiroDigito = 11 - (soma % 11);
+        if (primeiroDigito > 9) {
+            primeiroDigito = 0;
+        }
+    
+        // Verifica o primeiro dígito verificador
+        if (Character.getNumericValue(cpf.charAt(9)) != primeiroDigito) {
+            return false;
+        }
+    
+        // Calcula o segundo dígito verificador
+        soma = 0;
+        for (int i = 0; i < 10; i++) {
+            soma += Character.getNumericValue(cpf.charAt(i)) * (11 - i);
+        }
+        int segundoDigito = 11 - (soma % 11);
+        if (segundoDigito > 9) {
+            segundoDigito = 0;
+        }
+    
+        // Verifica o segundo dígito verificador
+        return Character.getNumericValue(cpf.charAt(10)) == segundoDigito;
     }
 }

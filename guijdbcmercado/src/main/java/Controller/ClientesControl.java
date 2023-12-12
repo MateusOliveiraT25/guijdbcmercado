@@ -1,5 +1,7 @@
 package Controller;
 
+import java.util.List;
+
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -8,9 +10,11 @@ import Model.Clientes;
 public class ClientesControl {
     private DefaultTableModel tableModel;
     private ClientesDAO clientesDAO;
+    private List<Clientes> clientes;
 
-    public ClientesControl(DefaultTableModel tableModel) {
-        this.tableModel = tableModel;
+    public ClientesControl(List<Clientes> clientes) {
+        this.clientes = clientes;
+        this.clientesDAO = new ClientesDAO();
 
         // Inicialize o tableModel se for nulo
         if (this.tableModel == null) {
@@ -32,22 +36,21 @@ public class ClientesControl {
         }
     }
 
-    public void cadastrarUsuario(String nome, String cpf) {
+    public boolean cadastrarUsuario(String nome, String cpf) {
         // Validar o CPF antes de cadastrar
         if (clientesDAO.isCpfValido(cpf)) {
             boolean cadastroSucesso = clientesDAO.cadastrarUsuario(nome, cpf);
 
             if (cadastroSucesso) {
-                showMessage("Usuário cadastrado com sucesso!");
                 atualizarTabela();
-            } else {
-                showMessage("Falha ao cadastrar usuário. Verifique os dados e tente novamente.", "Erro de Cadastro");
             }
+
+            return cadastroSucesso;
         } else {
             showMessage("CPF inválido. Não foi possível cadastrar o usuário.", "Erro de Cadastro");
+            return false;
         }
     }
-
     public Clientes obterClientePorCPF(String cpf) {
         try {
             return clientesDAO.obterClientePorCpf(cpf);

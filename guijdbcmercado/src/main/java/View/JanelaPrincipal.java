@@ -39,7 +39,7 @@ public class JanelaPrincipal extends JFrame {
         add(jTPane);
 
         // Cria instâncias das outras janelas
-        ClientesPainel tab1 = new ClientesPainel();
+        ClientesPainel tab1 = new ClientesPainel(cardLayout, cards);
         EstoquePainel tab4 = new EstoquePainel(gerenciadorEstoque);
 
         // Adiciona as janelas ao JTabbedPane
