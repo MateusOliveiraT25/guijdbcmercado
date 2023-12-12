@@ -54,7 +54,7 @@ public class ClientesPainel extends JPanel {
         add(resultadoLabel);
 
         // Ajuste da chamada do construtor do ClientesControl
-        ClientesControl operacoes = new ClientesControl(null); // Passe a lista de clientes aqui, se disponível
+        ClientesControl operacoes = new ClientesControl(tableModel);
 
         buscarButton.addActionListener(new ActionListener() {
             @Override
@@ -91,21 +91,19 @@ public class ClientesPainel extends JPanel {
             String cpf = cpfField.getText();
 
             // Passe a lista de clientes para o construtor do ClientesControl, se disponível
-            ClientesControl operacoes = new ClientesControl(null);
+            ClientesControl operacoes = new ClientesControl(tableModel);
             boolean cadastroSucesso = operacoes.cadastrarUsuario(nome, cpf);
 
             if (cadastroSucesso) {
                 JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
             } else {
                 JOptionPane.showMessageDialog(null, "Falha ao cadastrar usuário. Verifique os dados e tente novamente.", "Erro de Cadastro", JOptionPane.ERROR_MESSAGE);
+                // Usuário cancelou o cadastro
+                cardLayout.show(cards, "Cadastro Clientes");
             }
         } else {
             // Usuário cancelou o cadastro
             cardLayout.show(cards, "Cadastro Clientes");
         }
-    }
-
-    private void showMessage(String message) {
-        JOptionPane.showMessageDialog(null, message);
     }
 }
