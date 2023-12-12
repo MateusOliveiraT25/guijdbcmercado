@@ -1,16 +1,14 @@
 package View;
-import java.util.List;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.*;
 import Controller.ClientesControl;
-import Controller.ClientesDAO;
 import Model.Clientes;
 
 public class ClientesPainel extends JPanel {
     private JTextField clienteCPFField, clienteNomeField;
-    private List<Clientes> clientes;
     private DefaultTableModel tableModel;
     private int linhaSelecionada = -1;
     private JLabel resultadoLabel;
@@ -23,8 +21,6 @@ public class ClientesPainel extends JPanel {
         // Diálogo inicial para verificar se o usuário está cadastrado
         int respostaCadastro = JOptionPane.showConfirmDialog(null, "Você faz parte do clube de membros?", "Verificação de Cadastro", JOptionPane.YES_NO_OPTION);
         if (respostaCadastro == JOptionPane.NO_OPTION) {
-        
-            
             cadastrarUsuario();
         }
 
@@ -52,9 +48,9 @@ public class ClientesPainel extends JPanel {
 
         resultadoLabel = new JLabel();
         add(resultadoLabel);
-        
 
-        ClientesControl operacoes = new ClientesControl(clientes, tableModel, null); // Passando 'null' para a tabela, pois não a usaremos aqui
+        // Ajuste da chamada do construtor do ClientesControl
+        ClientesControl operacoes = new ClientesControl(tableModel);
 
         buscarButton.addActionListener(new ActionListener() {
             @Override
@@ -90,7 +86,8 @@ public class ClientesPainel extends JPanel {
             String nome = nomeField.getText();
             String cpf = cpfField.getText();
     
-            ClientesControl operacoes = new ClientesControl(clientes, tableModel, null); // Passando 'null' para a tabela, pois não a usaremos aqui
+            // Ajuste da chamada do construtor do ClientesControl
+            ClientesControl operacoes = new ClientesControl(tableModel);
             operacoes.cadastrarUsuario(nome, cpf);
         }
     }
