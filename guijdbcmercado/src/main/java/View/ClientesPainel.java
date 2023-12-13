@@ -48,6 +48,9 @@ public class ClientesPainel extends JPanel {
         JPanel buttonPanel = new JPanel();
         JButton buscarButton = new JButton("Procurar");
         buttonPanel.add(buscarButton);
+
+        JButton cadastrarUsuarioButton = new JButton("Cadastrar Usuário");
+        buttonPanel.add(cadastrarUsuarioButton);
         add(buttonPanel);
 
         resultadoLabel = new JLabel();
@@ -66,11 +69,26 @@ public class ClientesPainel extends JPanel {
                         clienteCPFField.setText(clienteEncontrado.getCpf());
                         clienteNomeField.setText(clienteEncontrado.getNome());
                         resultadoLabel.setText("Resultado da Busca: CPF - " + clienteEncontrado.getCpf() + ", Nome - " + clienteEncontrado.getNome());
+                        
+                        // Muda a cor do texto para verde
+                        clienteCPFField.setForeground(Color.GREEN);
+                        clienteNomeField.setForeground(Color.GREEN);
                     } else {
                         JOptionPane.showMessageDialog(null, "Cliente não encontrado", "Erro de Busca", JOptionPane.ERROR_MESSAGE);
                         resultadoLabel.setText("Resultado da Busca: Cliente não encontrado");
+                        
+                        // Resetando a cor do texto para a cor padrão
+                        clienteCPFField.setForeground(Color.BLACK);
+                        clienteNomeField.setForeground(Color.BLACK);
                     }
                 }
+            }
+        });
+
+        cadastrarUsuarioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cadastrarUsuario();
             }
         });
     }
