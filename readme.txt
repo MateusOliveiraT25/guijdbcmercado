@@ -1,43 +1,40 @@
+Manual de Utilização do Usuário
 
-Manual de Utilização do Sistema de Vendas de Carros
+Este manual descreve como utilizar a aplicação de gerenciamento de estoque e vendas, apresentando as principais funcionalidades e passos necessários para realizar as operações disponíveis.
 
-1. Cadastro de Carros:
+Tela Principal
+Ao abrir a aplicação, você será recebido pela tela principal, que inclui um conjunto de abas representando diferentes funcionalidades. As abas disponíveis são:
 
-Antes de iniciar o processo de venda, é necessário cadastrar os carros disponíveis. Siga os passos abaixo:
+Tela de Clientes: Permite o gerenciamento de clientes.
+Tela de Registro de Venda: Permite realizar vendas, adicionando produtos ao carrinho.
+Tela de Conclusão de Compras: Exibe a conclusão da compra, incluindo os produtos selecionados e o total a ser pago.
+Tela de Estoque: Permite visualizar, adicionar e remover produtos do estoque.
+Tela de Registro de Venda
+Código de Barras: Insira o código de barras do produto desejado.
+Adicionar Produto: Clique neste botão para adicionar o produto ao carrinho de compras.
+Lista de Produtos: Exibe os produtos adicionados ao carrinho, incluindo seus preços.
+Remover Produto: Selecione um produto na lista e clique neste botão para removê-lo do carrinho.
+Cliente VIP: Marque esta opção se o cliente for VIP para aplicar desconto.
+Pagamento: Clique neste botão para avançar para a tela de Conclusão de Compras.
+Tela de Conclusão de Compras
+Lista de Produtos: Exibe os produtos adicionados ao carrinho.
+Total: Mostra o valor total da compra.
+Concluir Compra: Finaliza a compra e exibe uma mensagem de conclusão.
+Tela de Estoque
+Listar Produtos: Clique neste botão para exibir a lista de produtos em estoque.
+Adicionar Produto: Clique neste botão para adicionar um novo produto ao estoque.
+Remover Produto: Clique neste botão para remover um produto do estoque.
+Adicionar Produto ao Estoque
+Ao clicar em "Adicionar Produto" na tela de estoque, um novo diálogo será aberto. Preencha as informações solicitadas (Código de Barras, Nome, Quantidade, Preço) e clique em "OK" para adicionar o produto. Em caso de erro na entrada de dados, será exibida uma mensagem de erro.
 
-Abra o sistema e vá para a aba "Cadastro de Carros".
-Preencha os campos obrigatórios, como marca, modelo, ano, placa e valor.
-Clique no botão "Cadastrar Carro".
-A tabela de carros será atualizada automaticamente.
-2. Cadastro de Clientes:
+Remover Produto do Estoque
+Ao clicar em "Remover Produto" na tela de estoque, digite o código de barras do produto a ser removido. Se o produto existir, ele será removido do estoque.
 
-Clientes também precisam ser cadastrados para concluir uma venda. Siga os passos abaixo:
+Execução Independente da Tela de Estoque
+Você também pode abrir a tela de estoque de forma independente clicando na aba "Tela de Estoque" ou usando a opção "Abrir Janela de Estoque" no menu. Isso permitirá que você gerencie o estoque em uma janela separada.
 
-Vá para a aba "Cadastro de Clientes".
-Preencha os campos obrigatórios, como nome, endereço, telefone, CPF e e-mail.
-Clique no botão "Cadastrar Cliente".
-A tabela de clientes será atualizada automaticamente.
-3. Realizar Venda:
-
-Agora, você está pronto para realizar uma venda. Siga os passos abaixo:
-
-Vá para a aba "Realizar Venda".
-Selecione um cliente da lista suspensa ou insira o CPF de um novo cliente.
-Selecione um carro da lista suspensa.
-Clique no botão "Realizar Venda".
-A venda será registrada no sistema, e as tabelas de clientes e carros serão atualizadas.
-4. Visualizar Vendas:
-
-Você pode visualizar todas as vendas realizadas. Siga os passos abaixo:
-
-Vá para a aba "Visualizar Vendas".
-A tabela exibirá informações sobre as vendas, incluindo cliente, carro e valor.
-Observações:
-
-Certifique-se de cadastrar carros e clientes antes de realizar uma venda.
-As listas suspensas de clientes e carros são atualizadas automaticamente sempre que um novo cadastro é realizado.
-Caso haja algum erro durante o processo, uma mensagem de erro será exibida.
-Dicas:
+Considerações Finais
+Este manual fornece uma visão geral das principais funcionalidades da aplicação. Certifique-se de seguir as instruções apresentadas nas telas para garantir uma experiência de uso adequada. Em caso de dúvidas ou problemas, consulte a documentação ou entre em contato com o suporte técnico.
 
 Utilize os botões de navegação entre as abas para facilitar a interação com o sistema.
 Sempre verifique se os dados inseridos estão corretos antes de confirmar o cadastro ou realizar uma venda.
