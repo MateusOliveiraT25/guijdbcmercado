@@ -55,12 +55,18 @@ public class EstoquePainel extends JPanel {
         StringBuilder mensagem = new StringBuilder("Produtos em Estoque:\n");
 
         for (Produto produto : produtos) {
-            mensagem.append(produto.getNome()).append(" - Quantidade: ").append(produto.getQuantidade()).append("\n");
+            mensagem.append("Código de Barras: ").append(produto.getCodigoBarra())
+                    .append(" - Nome: ").append(produto.getNome())
+                    .append(" - Quantidade: ").append(produto.getQuantidade())
+                    .append("\n");
         }
 
-        JOptionPane.showMessageDialog(this, mensagem.toString(), "Produtos em Estoque", JOptionPane.INFORMATION_MESSAGE);
+        if (!produtos.isEmpty()) {
+            JOptionPane.showMessageDialog(this, mensagem.toString(), "Produtos em Estoque", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Não há produtos em estoque.", "Estoque Vazio", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
-
     private void adicionarProduto() {
         // Criação do JDialog
         JDialog dialog = new JDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Adicionar Produto", true);
